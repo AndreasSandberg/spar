@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:SPARInfilPersonNrManuell xmlns="http://skatteverket.se/spar/komponent/1.0" xmlns:ns2="http://skatteverket.se/spar/instans/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://skatteverket.se/spar/instans/1.0 http://www.statenspersonadressregister.se/Filarkiv/XMLSchema/20140315/SPARInfilPersonNrManuell.xsd">
+    <PersonId>
+        <FysiskPersonId>198201010001</FysiskPersonId>
+    </PersonId>
+    <PersonId>
+        <FysiskPersonId>198201020002</FysiskPersonId>
+    </PersonId>
+    <PersonId>
+        <FysiskPersonId>198201020003</FysiskPersonId>
+    </PersonId>
+    <PersonId>
+        <FysiskPersonId>198201020004</FysiskPersonId>
+    </PersonId>
+</ns2:SPARInfilPersonNrManuell>
