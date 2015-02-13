@@ -32,6 +32,9 @@ public class ParseSpar {
 		se.sparavisering.SPARAvisering avisering = (se.sparavisering.SPARAvisering) jaxbUnmarshaller.unmarshal(inputFile);
 		List<AviseringsPostTYPE> aviseringsPoster = avisering.getAviseringsPoster().getAviseringsPost();
 		for(AviseringsPostTYPE aviseringsPost : aviseringsPoster){
+			
+			writer.write(notNull(aviseringsPost.getPersonId().getFysiskPersonId()) + ";");
+
 			PersondetaljerTYPE persondetaljerTYPE = aviseringsPost.getPersondetaljer().get(0);
 			writer.write(notNull(persondetaljerTYPE.getFornamn()) + ";");
 			writer.write(notNull(persondetaljerTYPE.getEfternamn())+ ";");
