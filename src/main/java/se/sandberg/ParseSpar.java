@@ -12,7 +12,6 @@ import javax.xml.bind.Unmarshaller;
 
 import se.sparavisering.AdressTYPE;
 import se.sparavisering.AviseringsPostTYPE;
-import se.sparavisering.AvregistreringsorsakKodTYPE;
 import se.sparavisering.FolkbokforingsadressTYPE;
 import se.sparavisering.PersondetaljerTYPE;
 import se.sparavisering.SarskildPostadressTYPE;
@@ -37,49 +36,59 @@ public class ParseSpar {
 		List<AviseringsPostTYPE> aviseringsPoster = avisering.getAviseringsPoster().getAviseringsPost();
 		for (AviseringsPostTYPE aviseringsPost : aviseringsPoster) {
 			writer.write(notNull(aviseringsPost.getPersonId().getFysiskPersonId()) + ";");
-			if (aviseringsPost.getPersondetaljer().get(0).getAvregistreringsorsakKod() != null) {
+			if (!aviseringsPost.getPersondetaljer().isEmpty() && aviseringsPost.getPersondetaljer().get(0).getAvregistreringsorsakKod() != null) {
 				writer.write(aviseringsPost.getPersondetaljer().get(0).getAvregistreringsorsakKod() +";");
 			} else {
 				writer.write(";");
 			}
-			writer.write(notNull(aviseringsPost.getSekretessmarkering().name())
-					+ ";");
-			PersondetaljerTYPE persondetaljerTYPE = aviseringsPost
-					.getPersondetaljer().get(0);
-			writer.write(notNull(persondetaljerTYPE.getFornamn()) + ";");
-			writer.write(String.valueOf(persondetaljerTYPE.getTilltalsnamn())+ ";");
-			writer.write(notNull(persondetaljerTYPE.getEfternamn()) + ";");
-
-			AdressTYPE adressTYPE = aviseringsPost.getAdress().get(0);
-			FolkbokforingsadressTYPE folkbokforingsadress = adressTYPE.getFolkbokforingsadress();
-			SarskildPostadressTYPE sarskildPostadress = adressTYPE.getSarskildPostadress();
-			UtlandsadressTYPE utlandsadress = adressTYPE.getUtlandsadress();
-			if (folkbokforingsadress != null) {
-				writer.write(notNull(folkbokforingsadress.getUtdelningsadress1()) + ";");
-				writer.write(notNull(folkbokforingsadress.getUtdelningsadress2()) + ";");
-				writer.write(notNull(folkbokforingsadress.getPostNr()) + ";");
-				writer.write(notNull(folkbokforingsadress.getPostort()) + ";");
-			} else {
-				writer.write(";;;;");
+			writer.write(notNull(aviseringsPost.getSekretessmarkering().name()) + ";");
+			List<PersondetaljerTYPE> persondetaljer = aviseringsPost.getPersondetaljer();
+			if(!persondetaljer.isEmpty()){
+				PersondetaljerTYPE persondetaljerTYPE = persondetaljer.get(0);
+				writer.write(notNull(persondetaljerTYPE.getFornamn()) + ";");
+				writer.write(String.valueOf(persondetaljerTYPE.getTilltalsnamn())+ ";");
+				writer.write(notNull(persondetaljerTYPE.getEfternamn()) + ";");
+			}else{
+				writer.write(";;;");
 			}
-
-			if (sarskildPostadress != null) {
-				writer.write(notNull(sarskildPostadress.getUtdelningsadress1())+ ";");
-				writer.write(notNull(sarskildPostadress.getUtdelningsadress2())+ ";");
-				writer.write(notNull(sarskildPostadress.getPostNr()) + ";");
-				writer.write(notNull(sarskildPostadress.getPostort()) + ";");
-			} else {
+			
+			List<AdressTYPE> adress = aviseringsPost.getAdress();
+			if(!adress.isEmpty()){
+				AdressTYPE adressTYPE = adress.get(0);
+				FolkbokforingsadressTYPE folkbokforingsadress = adressTYPE.getFolkbokforingsadress();
+				SarskildPostadressTYPE sarskildPostadress = adressTYPE.getSarskildPostadress();
+				UtlandsadressTYPE utlandsadress = adressTYPE.getUtlandsadress();
+				if (folkbokforingsadress != null) {
+					writer.write(notNull(folkbokforingsadress.getUtdelningsadress1()) + ";");
+					writer.write(notNull(folkbokforingsadress.getUtdelningsadress2()) + ";");
+					writer.write(notNull(folkbokforingsadress.getPostNr()) + ";");
+					writer.write(notNull(folkbokforingsadress.getPostort()) + ";");
+				} else {
+					writer.write(";;;;");
+				}
+	
+				if (sarskildPostadress != null) {
+					writer.write(notNull(sarskildPostadress.getUtdelningsadress1())+ ";");
+					writer.write(notNull(sarskildPostadress.getUtdelningsadress2())+ ";");
+					writer.write(notNull(sarskildPostadress.getPostNr()) + ";");
+					writer.write(notNull(sarskildPostadress.getPostort()) + ";");
+				} else {
+					writer.write(";;;;");
+				}
+	
+				if (utlandsadress != null) {
+					writer.write(notNull(utlandsadress.getUtdelningsadress1())+ ";");
+					writer.write(notNull(utlandsadress.getUtdelningsadress2())+ ";");
+					writer.write(notNull(utlandsadress.getUtdelningsadress3())+ ";");
+					writer.write(notNull(utlandsadress.getPostKodUtland()) + ";");
+					writer.write(notNull(utlandsadress.getPostortUtland()) + ";");
+					writer.write(notNull(utlandsadress.getLand()) + ";");
+				} else {
+					writer.write(";;;;");
+				}
+			}else{
 				writer.write(";;;;");
-			}
-
-			if (utlandsadress != null) {
-				writer.write(notNull(utlandsadress.getUtdelningsadress1())+ ";");
-				writer.write(notNull(utlandsadress.getUtdelningsadress2())+ ";");
-				writer.write(notNull(utlandsadress.getUtdelningsadress3())+ ";");
-				writer.write(notNull(utlandsadress.getPostKodUtland()) + ";");
-				writer.write(notNull(utlandsadress.getPostortUtland()) + ";");
-				writer.write(notNull(utlandsadress.getLand()) + ";");
-			} else {
+				writer.write(";;;;");
 				writer.write(";;;;");
 			}
 			writer.write("\n");
